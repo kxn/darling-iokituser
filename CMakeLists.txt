@@ -74,6 +74,7 @@ set(iokit_sources
 	IOCFURLAccess.c
 	IODataQueueClient.c
 	IOKitLib.c
+	IOMainPort.c
 	IOMIGMachPort.c
 	IOSystemConfiguration.c
 	#IOTrap.S # we don't need it and even if we did, our IOKit is in userspace, so we would have a define a custom `iokit_user_client_trap` function

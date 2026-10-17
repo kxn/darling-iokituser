@@ -94,6 +94,16 @@ typedef void
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+/*! @const kIOMainPortDefault
+    @abstract The default port sentinel used to initiate IOKit communication.
+    @discussion MACH_PORT_NULL asks the existing backend to find its default port. */
+extern const mach_port_t kIOMainPortDefault;
+
+/*! @function IOMainPort
+    @abstract Returns the port used to initiate communication with IOKit.
+    @discussion Equivalent to IOMasterPort; retains its port ownership and errors. */
+kern_return_t IOMainPort(mach_port_t bootstrapPort, mach_port_t *mainPort);
+
 /*! @const kIOMasterPortDefault
     @abstract The default mach port used to initiate communication with IOKit.
     @discussion When specifying a master port to IOKit functions, the NULL argument indicates "use the default". This is a synonym for NULL, if you'd rather use a named constant.

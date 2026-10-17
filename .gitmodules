@@ -1,6 +1,6 @@
 [submodule "IOGraphics"]
 	path = darling/submodules/IOGraphics
-	url = ../darling-IOGraphics.git
+	url = https://github.com/darlinghq/darling-IOGraphics.git
 [submodule "IOHIDFamily"]
 	path = darling/submodules/IOHIDFamily
-	url = ../darling-IOHIDFamily.git
+	url = https://github.com/darlinghq/darling-IOHIDFamily.git
