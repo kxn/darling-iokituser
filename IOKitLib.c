@@ -71,6 +71,14 @@ typedef struct OSNotificationHeader64 NotificationHeader;
 #include <iokitmig64.h>
 #undef mig_external
 
+// Notification references carry callbacks and contexts. The legacy routines
+// serialize natural_t elements, which truncate these fields in LP64 clients.
+// Use the existing 64-bit MIG routines for every notification transport.
+#define io_service_add_notification io_service_add_notification_64
+#define io_service_add_notification_ool io_service_add_notification_ool_64
+#define io_service_add_notification_bin io_service_add_notification_bin_64
+#define io_service_add_interest_notification io_service_add_interest_notification_64
+
 #else
 
 // To stage the IOKitUser map the 64 bit aware APIs locally
@@ -678,7 +686,7 @@ InternalIOServiceAddNotification(
 	const io_name_t	      notificationType,
 	CFDictionaryRef	      matching,
 	mach_port_t	      wakePort,
-	io_async_ref_t        asyncRef,
+	io_user_reference_t * asyncRef,
 	mach_msg_type_number_t referenceCnt,
 	io_iterator_t 	    * notification )
 {
@@ -770,7 +778,7 @@ IOServiceAddMatchingNotification(
         void *			refcon,
 	io_iterator_t * 	notification )
 {
-    io_user_reference_t	asyncRef[kIOMatchingCalloutCount];
+    io_user_reference_t	asyncRef[kIOMatchingCalloutCount] = {0};
 
     asyncRef[kIOMatchingCalloutFuncIndex]   = (io_user_reference_t) callback;
     asyncRef[kIOMatchingCalloutRefconIndex] = (io_user_reference_t) refcon;
@@ -790,7 +798,7 @@ IOServiceAddInterestNotification(
         void *			refcon,
         io_object_t *		notification )
 {
-    io_user_reference_t	asyncRef[kIOInterestCalloutCount];
+    io_user_reference_t	asyncRef[kIOInterestCalloutCount] = {0};
     kern_return_t	kr;
 
     asyncRef[kIOInterestCalloutFuncIndex]    = (io_user_reference_t) callback;
